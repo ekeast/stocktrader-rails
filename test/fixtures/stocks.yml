@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  price: 1.5
+  shares: 1
+
+two:
+  user: two
+  price: 1.5
+  shares: 1

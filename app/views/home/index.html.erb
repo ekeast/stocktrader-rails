@@ -1,0 +1,11 @@
+<h1>Home#index</h1>
+<p>Suck It</p>
+BUY
+
+
+
+<%= form_tag("/stocks/new", method: "get") do %>
+  <%= label_tag(:symbol, "Search for:") %>
+  <%= text_field_tag(:symbol) %>
+  <%= submit_tag("New") %>
+<% end %>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>StocktraderRails</title>
+    <title>StockTrader</title>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -9,6 +9,23 @@
   </head>
 
   <body>
+    <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto navbar-right">
+          <% if current_user %>
+          <li class="nav-link active"><%= link_to "Logout", destroy_user_session_path, :method => :delete %></li>
+          <% else %>
+          <li class="nav-link active"><%= link_to "Login", new_user_session_path %></li>
+          <li class="nav-link active toggle-right"><%= link_to "Sign Up", new_user_registration_path %></li>
+          <% end %>
+        </ul>
+      <div>
+    </nav>
     <%= yield %>
+    <div class="container">
+      <p class="notice"><%= notice %></p>
+      <p class="alert"><%= alert %></p>
+    </div>
   </body>
+
 </html>
