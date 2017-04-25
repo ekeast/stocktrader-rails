@@ -14,6 +14,8 @@
 
 
 <%= stock.price %>
+  <%= f.hidden_field(:symbol, :value => stock.symbol) %>
+  <%= f.hidden_field(:price, :value => stock.price) %>
 
   <div class="field">
     <%= f.label :shares %>

@@ -1,20 +1,15 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+  <strong>User:</strong>
+  <%= @stock.user.email %>
+</p>
+
+<p>
   <strong>Symbol:</strong>
   <%= @stock.symbol %>
 </p>
 
-<p>
-  <strong>Symbol:</strong>
-  <%= @stock.price %>
-</p>
-
-
-<p>
-  <strong>User:</strong>
-  <%= @stock.user %>
-</p>
 
 <p>
   <strong>Price:</strong>
@@ -26,5 +21,9 @@
   <%= @stock.shares %>
 </p>
 
+<p>
+  <strong>New Balance:</strong>
+  <%= current_user.bank %>
+</p>
 <%= link_to 'Edit', edit_stock_path(@stock) %> |
 <%= link_to 'Back', stocks_path %>

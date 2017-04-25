@@ -37,10 +37,15 @@ class StocksController < ApplicationController
     @stock = Stock.new(stock_params)
     @stock.user = current_user
 
+
+
+
     respond_to do |format|
       if @stock.save
-        format.html { redirect_to @stock, notice: 'Stock was successfully created.' }
-        format.json { render :show, status: :created, location: @stock }
+        current_user.bank = current_user.bank - (@stock.price * @stock.shares)
+          format.html { redirect_to @stock, notice: 'Stock was successfully created.' }
+          format.json { render :show, status: :created, location: @stock }
+          current_user.save!
       else
         format.html { render :new }
         format.json { render json: @stock.errors, status: :unprocessable_entity }
