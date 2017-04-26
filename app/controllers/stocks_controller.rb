@@ -9,7 +9,19 @@ class StocksController < ApplicationController
   # GET /stocks
   # GET /stocks.json
   def index
-    @stocks = Stock.all
+    @price = Stock.group(:symbol).sum(:price)
+    @shares = Stock.group(:symbol).sum(:shares)
+
+    @stocks = []
+
+    Stock.group(:symbol).select('symbol, sum(price * shares) AS total_price, sum(shares) as total_shares').each do |stock|
+      url = 'https://www.google.com/finance/info?q=NYSE%3A' + stock.symbol
+      uri = URI(url)
+      response = Net::HTTP.get(uri)
+      json = JSON.parse(response[5..(response.length - 3)])
+      current_price = json["l"].to_f
+      @stocks.push([stock.symbol, stock.total_price, stock.total_shares, current_price])
+    end
   end
 
   # GET /stocks/1
