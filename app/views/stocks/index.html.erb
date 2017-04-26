@@ -22,8 +22,8 @@
         <td>$<%= stock[1] %></td>
         <td><%= stock[2] %></td>
         <td>$<%= stock[3] %></td>
-        <td>$<%= stock[3].to_i * stock[2].to_i %></td>
-        <td>$<%= (stock[3].to_i * stock[2].to_i) - (stock[1].to_i) %>
+        <td>$<%= stock[3].to_f * stock[2].to_f %></td>
+        <td>$<%= (stock[3].to_f * stock[2].to_f) - (stock[1].to_f) %>
       </tr>
     <% end %>
   </tbody>
