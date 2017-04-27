@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Symbol:</strong>
+  <%= @property.symbol %>
+</p>
+
+<p>
+  <strong>Shares:</strong>
+  <%= @property.shares %>
+</p>
+
+<p>
+  <strong>Purchased price:</strong>
+  <%= @property.purchased_price %>
+</p>
+
+<%= link_to 'Edit', edit_property_path(@property) %> |
+<%= link_to 'Back', properties_path %>

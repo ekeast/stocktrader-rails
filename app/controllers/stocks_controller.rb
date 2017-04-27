@@ -9,18 +9,19 @@ class StocksController < ApplicationController
   # GET /stocks
   # GET /stocks.json
   def index
-    @price = Stock.group(:symbol).sum(:price)
-    @shares = Stock.group(:symbol).sum(:shares)
 
-    @stocks = []
+    @current_prices = []
+    @properties = current_user.properties
 
-    Stock.group(:symbol).select('symbol, sum(price * shares) AS total_price, sum(shares) as total_shares').each do |stock|
-      url = 'https://www.google.com/finance/info?q=NYSE%3A' + stock.symbol
+
+
+    @properties.each do |stock|
+      url = 'https://www.google.com/finance/info?q=NYSE%3A' + stock.symbol.to_s
       uri = URI(url)
       response = Net::HTTP.get(uri)
       json = JSON.parse(response[5..(response.length - 3)])
       current_price = json["l"].to_f
-      @stocks.push([stock.symbol, stock.total_price, stock.total_shares, current_price])
+      @current_prices.push(current_price)
     end
   end
 
@@ -32,7 +33,7 @@ class StocksController < ApplicationController
   # GET /stocks/new
   def new
     @stock = Stock.new(:symbol => params[:symbol])
-    url = 'https://www.google.com/finance/info?q=NYSE%3A' + @stock.symbol
+    url = 'https://www.google.com/finance/info?q=NYSE%3A' + @stock.symbol.to_s
     uri = URI(url)
     response = Net::HTTP.get(uri)
     json = JSON.parse(response[5..(response.length - 3)])
@@ -51,9 +52,17 @@ class StocksController < ApplicationController
 
 
 
-
     respond_to do |format|
       if @stock.save
+
+            if Property.where(symbol: @stock.symbol).first
+              property = Property.where(symbol: @stock.symbol).first
+              property.shares = property.shares + @stock.shares
+              property.purchased_price = property.purchased_price + (@stock.shares * @stock.price)
+              property.save!
+            else
+              Property.create(symbol: @stock.symbol, purchased_price: @stock.price * @stock.shares, shares: @stock.shares, user: current_user)
+            end
         current_user.bank = current_user.bank - (@stock.price * @stock.shares)
           format.html { redirect_to @stock, notice: 'Stock was successfully created.' }
           format.json { render :show, status: :created, location: @stock }

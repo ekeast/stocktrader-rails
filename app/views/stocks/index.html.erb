@@ -6,7 +6,7 @@
   <thead>
     <tr>
       <th>Symbol</th>
-      <th>Price</th>
+      <th>Purchased Price</th>
       <th>Shares</th>
       <th>Current Price</th>
       <th>Current Value</th>
@@ -16,14 +16,14 @@
   </thead>
 
   <tbody>
-    <% @stocks.each_with_index do |stock,index| %>
+    <% @properties.each_with_index do |stock,index| %>
       <tr>
-        <td><%= stock[0] %></td>
-        <td>$<%= stock[1] %></td>
-        <td><%= stock[2] %></td>
-        <td>$<%= stock[3] %></td>
+        <td><%= stock.symbol %></td>
+        <td>$<%= stock.purchased_price %></td>
+        <td><%= stock.shares %></td>
+        <td>$<%= @current_prices[index] %></td>
         <td>$<%= stock[3].to_f * stock[2].to_f %></td>
-        <td>$<%= (stock[3].to_f * stock[2].to_f) - (stock[1].to_f) %>
+        <td>$<%= (@current_prices[index] * stock.shares) - stock.purchased_price %>
       </tr>
     <% end %>
   </tbody>
